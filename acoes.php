@@ -8,6 +8,16 @@ if (isset($_POST['create_usuario'])) {
     $dataNasc = trim($_POST['data_nascimento']);
     $senha = isset($_POST['senha']) ? password_hash(trim($_POST['senha']), PASSWORD_DEFAULT) : '';
 
-    $sql = "INSERT INTO usuarios (nome, email, data_nascimento, senha) VALUES ('$nome', '$email', '$dataNasc', '$senha')";
-    $conn->exec($sql);
+    $stmt = $conn->prepare("
+        INSERT INTO usuarios
+        (nome, email, data_nascimento, senha)
+        VALUES
+        (:nome, :email, :data_nascimento, :senha)
+    ");
+    $stmt->execute([
+        ':nome' => $nome,
+        ':email' => $email,
+        ':data_nascimento' => $dataNasc,
+        ':senha' => $senha
+    ]);
 }
