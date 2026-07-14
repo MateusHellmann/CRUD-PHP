@@ -20,4 +20,16 @@ if (isset($_POST['create_usuario'])) {
         ':data_nascimento' => $dataNasc,
         ':senha' => $senha
     ]);
+
+    $count = $stmt->rowCount();
+
+    if ($count > 0) {
+        $_SESSION['mensagem'] = 'Usuário criado com sucesso.';
+        header('Location: index.php');
+        exit;
+        } else {
+        $_SESSION['mensagem'] = 'Falha ao criar usuário.';
+        header('Location: index.php');
+        exit;
+    }
 }
